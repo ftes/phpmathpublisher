@@ -11,6 +11,8 @@
  *                                                                         *
  ***************************************************************************/
 //Modyfied by Tux-oid
+namespace PMP;
+
 class Helper
 {
 
@@ -28,7 +30,7 @@ class Helper
 
 	public function __construct()
 	{
-		$this->dirfonts = $_SERVER["DOCUMENT_ROOT"] . "/vendor/phpmathpublisher/lib/PMP/src/fonts";
+		$this->dirfonts = $_SERVER["DOCUMENT_ROOT"] . "vendor/phpmathpublisher/lib/PMP/fonts";
 		$this->dirimg = $_SERVER["DOCUMENT_ROOT"] . "web/bundles/rlmain/images/formulas";
 		$this->backR = 255;
 		$this->backG = 255;
@@ -281,7 +283,7 @@ class Helper
 			case '_tintegrale':
 				if(isset($fontesmath[$texte]))
 					$font = $dirfonts . "/" . $fontesmath[$texte] . ".ttf";
-				elseif(est_nombre($texte))
+				elseif($this->est_nombre($texte))
 					$font = $dirfonts . "/cmr10.ttf";
 				else $font = $dirfonts . "/cmmi10.ttf";
 				$t = 6;
@@ -358,7 +360,7 @@ class Helper
 			default:
 				if(isset($fontesmath[$texte]))
 					$font = $dirfonts . "/" . $fontesmath[$texte] . ".ttf";
-				elseif(est_nombre($texte))
+				elseif($this->est_nombre($texte))
 					$font = $dirfonts . "/cmr10.ttf";
 				else $font = $dirfonts . "/cmmi10.ttf";
 				$t = 6;
@@ -1178,7 +1180,7 @@ class expression_math extends expression
 		$largeurexp = imagesx($imgexp);
 		$hauteurexp = imagesy($imgexp);
 
-		$imgrac = affiche_symbol("_racine", $hauteurexp + 2);
+		$imgrac = $this->helper->affiche_symbol("_racine", $hauteurexp + 2);
 		$largeurrac = imagesx($imgrac);
 		$hauteurrac = imagesy($imgrac);
 		$baserac = $hauteurrac / 2;
@@ -1222,7 +1224,7 @@ class expression_math extends expression
 		$largeurexp = imagesx($imgexp);
 		$hauteurexp = imagesy($imgexp);
 
-		$imgrac = affiche_symbol("_racine", $hauteurexp + 2);
+		$imgrac = $this->helper->affiche_symbol("_racine", $hauteurexp + 2);
 		$largeurrac = imagesx($imgrac);
 		$hauteurrac = imagesy($imgrac);
 		$baserac = $hauteurrac / 2;
@@ -1274,7 +1276,7 @@ class expression_math extends expression
 		$hauteurexp = imagesy($imgexp);
 		$largeurexp = imagesx($imgexp);
 		//caractere
-		$imgsymbole = affiche_symbol($caractere, $baseexp * 1.8); //max($baseexp,$hauteurexp-$baseexp)*2);
+		$imgsymbole = $this->helper->affiche_symbol($caractere, $baseexp * 1.8); //max($baseexp,$hauteurexp-$baseexp)*2);
 		$largeursymbole = imagesx($imgsymbole);
 		$hauteursymbole = imagesy($imgsymbole);
 		$basesymbole = $hauteursymbole / 2;
@@ -1292,7 +1294,7 @@ class expression_math extends expression
 		ImageCopy($imggauche, $imgsymbole, ($largeurgauche - $largeursymbole) / 2, $hauteur2, 0, 0, $largeursymbole, $hauteursymbole);
 		ImageCopy($imggauche, $img2, ($largeurgauche - $largeur2) / 2, 0, 0, 0, $largeur2, $hauteur2);
 		ImageCopy($imggauche, $img1, ($largeurgauche - $largeur1) / 2, $hauteur2 + $hauteursymbole, 0, 0, $largeur1, $hauteur1);
-		$imgfin = alignement2($imggauche, $basesymbole + $hauteur2, $imgexp, $baseexp);
+		$imgfin = $this->helper->alignement2($imggauche, $basesymbole + $hauteur2, $imgexp, $baseexp);
 		$this->image = $imgfin;
 		$this->base_verticale = max($basesymbole + $hauteur2, $baseexp + $hauteur2);
 	}
@@ -1567,7 +1569,7 @@ class expression_math extends expression
 		$largeurexp = imagesx($imgexp);
 		$hauteurexp = imagesy($imgexp);
 		//fleche
-		$imgsup = affiche_symbol("right", 16);
+		$imgsup = $this->helper->affiche_symbol("right", 16);
 		$largeursup = imagesx($imgsup);
 		$hauteursup = imagesy($imgsup);
 		//fin
@@ -1664,7 +1666,7 @@ class expression_math extends expression
 		$fontG = $this->helper->getFontG();
 		$fontB = $this->helper->getFontB();
 		$transperent = $this->helper->getTransperent();
-		$imgsup = affiche_symbol("_hat", $taille);
+		$imgsup = $this->helper->affiche_symbol("_hat", $taille);
 
 		$this->noeuds[1]->dessine($taille);
 		$imgexp = $this->noeuds[1]->image;
@@ -1701,7 +1703,7 @@ class expression_math extends expression
 		$fontG = $this->helper->getFontG();
 		$fontB = $this->helper->getFontB();
 		$transperent = $this->helper->getTransperent();
-		$imglim = affiche_math("_lim", $taille);
+		$imglim = $this->helper->affiche_math("_lim", $taille);
 		$largeurlim = imagesx($imglim);
 		$hauteurlim = imagesy($imglim);
 		$baselim = $hauteurlim / 2;
@@ -1731,7 +1733,7 @@ class expression_math extends expression
 		ImageCopy($imgfin, $imglim, ($largeur - $largeurlim) / 2, 0, 0, 0, $largeurlim, $hauteurlim);
 		ImageCopy($imgfin, $imginf, ($largeur - $largeurinf) / 2, $hauteurlim, 0, 0, $largeurinf, $hauteurinf);
 
-		$this->image = alignement2($imgfin, $baselim, $imgexp, $baseexp);
+		$this->image = $this->helper->alignement2($imgfin, $baselim, $imgexp, $baseexp);
 		$this->base_verticale = max($baselim, $baseexp);
 	}
 
@@ -1749,14 +1751,14 @@ class expression_math extends expression
 			$imgdroit = $this->helper->parenthese($hauteurexp, $this->noeuds[3]->noeuds[0]->texte);
 		else $imgdroit = $this->helper->parenthese($hauteurexp, $this->noeuds[3]->texte);
 		$basedroit = imagesy($imgdroit) / 2;
-		$this->image = alignement3($imggauche, $basegauche, $imgexp, $baseexp, $imgdroit, $basedroit);
+		$this->image = $this->helper->alignement3($imggauche, $basegauche, $imgexp, $baseexp, $imgdroit, $basedroit);
 		$this->base_verticale = max($basegauche, $baseexp, $basedroit);
 	}
 }
 
 //******************************************************************************************
 
-class PMP_PhpMathPublisher
+class PhpMathPublisher
 {
 	protected $helper;
 	public function __construct()
