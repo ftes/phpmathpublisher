@@ -11,8 +11,8 @@
  *                                                                         *
  ***************************************************************************/
 
-$dirfonts=$_SERVER["DOCUMENT_ROOT"]."/librarys/phpmathpublisher/fonts";
-$dirimg=$_SERVER["DOCUMENT_ROOT"]."/images/formulas/";
+$dirfonts=$_SERVER["DOCUMENT_ROOT"]."/vendor/phpmathpublisher/lib/PMP/src/fonts";
+$dirimg=$_SERVER["DOCUMENT_ROOT"]."/web/bundles/rlmain/images/formulas/";
 $backR = 255;
 $backG = 255;
 $backB = 255;
