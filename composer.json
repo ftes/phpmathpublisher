@@ -1,6 +1,6 @@
 {
   "name": "rl/phpmathpublisher",
-  "description": "phpMathPublisher fork. Rewritten in php5.3. Added PSR-0 support",
+  "description": "phpMathPublisher fork. Rewritten in php5.3",
   "type": "library",
   "keywords": [
     "phpMathPublisher",
@@ -17,15 +17,18 @@
     {
       "name": "Peter Vasilevsky a.k.a. Tux-oid.",
       "homepage": "http://rulinux.net"
+    },
+    {
+      "name": "Andreas Gohr",
+      "homepage": "https://www.splitbrain.org"
     }
   ],
   "autoload": {
-    "psr-0": {
-      "RL\\PhpMathPublisher\\": ""
+    "psr-4": {
+      "RL\\PhpMathPublisher\\": "src/"
     }
   },
   "require": {
     "php": ">=5.3.3"
-  },
-  "target-dir": "RL/PhpMathPublisher"
+  }
 }
