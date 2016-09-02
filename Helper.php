@@ -427,47 +427,30 @@ class Helper
         $symbols = $this->getSymbols();
         $fontsMath = $this->getMathFonts();
         $dirFonts = $this->getDirFonts();
-        $backR = $this->getBackR();
-        $backG = $this->getBackG();
-        $backB = $this->getBackB();
-        $fontR = $this->getFontR();
-        $fontG = $this->getFontG();
-        $fontB = $this->getFontB();
-        $transparent = $this->getTransparent();
         $text = trim(stripslashes($text));
         switch ($text) {
             case '':
                 $img = imagecreate(1, max($high, 1));
-                $white = imagecolorallocate($img, $backR, $backG, $backB);
-                if ($transparent) {
-                    $white = imagecolortransparent($img, $white);
-                }
+                $white = $this->getBackColor($img);
                 imagefilledrectangle($img, 0, 0, 1, $high, $white);
                 break;
             case '~':
                 $img = imagecreate(1, max($high, 1));
-                $white = imagecolorallocate($img, $backR, $backG, $backB);
-                $white = imagecolortransparent($img, $white);
+                $white = $this->getBackColor($img);
                 imagefilledrectangle($img, 0, 0, 1, $high, $white);
                 break;
             case 'vert':
                 $img = imagecreate(6, max($high, 1));
-                $white = imagecolorallocate($img, $backR, $backG, $backB);
-                if ($transparent) {
-                    $white = imagecolortransparent($img, $white);
-                }
-                $black = imagecolorallocate($img, $fontR, $fontG, $fontB);
+                $black = $this->getFontColor($img);
+                $white = $this->getBackColor($img);
                 imagefilledrectangle($img, 0, 0, 6, $high, $white);
                 imagefilledrectangle($img, 2, 0, 2, $high, $black);
                 imagefilledrectangle($img, 4, 0, 4, $high, $black);
                 break;
             case '|':
                 $img = imagecreate(5, max($high, 1));
-                $white = imagecolorallocate($img, $backR, $backG, $backB);
-                if ($transparent) {
-                    $white = imagecolortransparent($img, $white);
-                }
-                $black = imagecolorallocate($img, $fontR, $fontG, $fontB);
+                $black = $this->getFontColor($img);
+                $white = $this->getBackColor($img);
                 imagefilledrectangle($img, 0, 0, 5, $high, $white);
                 imagefilledrectangle($img, 2, 0, 2, $high, $black);
                 break;
@@ -479,11 +462,8 @@ class Helper
                 $tmpWidth = abs($tmpDim[2] - $tmpDim[0]) + 2;
                 $tmpHeight = abs($tmpDim[3] - $tmpDim[5]) + 2;
                 $tmpImg = imagecreate(max($tmpWidth, 1), max($tmpHeight, 1));
-                $tmpBlack = imagecolorallocate($tmpImg, $fontR, $fontG, $fontB);
-                $tmpWhite = imagecolorallocate($tmpImg, $backR, $backG, $backB);
-                if ($transparent) {
-                    $tmpWhite = imagecolortransparent($tmpImg, $tmpWhite);
-                }
+                $tmpBlack = $this->getFontColor($tmpImg);
+                $tmpWhite = $this->getBackColor($tmpImg);
                 imagefilledrectangle($tmpImg, 0, 0, $tmpWidth, $tmpHeight, $tmpWhite);
                 imagettftext($tmpImg, $t, 0, 0, $tmpHeight, $tmpBlack, $font, $text);
                 $allWhite = true;
@@ -516,10 +496,7 @@ class Helper
                 $nx = abs($ex - $sx);
                 $ny = abs($ey - $sy);
                 $img = imagecreate(max($nx + 4, 1), max($ny + 4, 1));
-                $white = imagecolorallocate($img, $backR, $backG, $backB);
-                if ($transparent) {
-                    $white = imagecolortransparent($img, $white);
-                }
+                $white = $this->getBackColor($img);
                 imagefilledrectangle($img, 0, 0, $nx + 4, $ny + 4, $white);
                 imagecopy($img, $tmpImg, 2, 2, $sx, $sy, min($nx + 2, $tmpWidth - $sx), min($ny + 2, $tmpHeight - $sy));
                 break;
@@ -531,11 +508,8 @@ class Helper
                 $tmpWidth = abs($tmpDim[2] - $tmpDim[0]);
                 $tmpHeight = abs($tmpDim[3] - $tmpDim[5]) * 4;
                 $tmpImg = imagecreate(max($tmpWidth, 1), max($tmpHeight, 1));
-                $tmpBlack = imagecolorallocate($tmpImg, $fontR, $fontG, $fontB);
-                $tmpWhite = imagecolorallocate($tmpImg, $backR, $backG, $backB);
-                if ($transparent) {
-                    $tmpWhite = imagecolortransparent($tmpImg, $tmpWhite);
-                }
+                $tmpBlack = $this->getFontColor($tmpImg);
+                $tmpWhite = $this->getBackColor($tmpImg);
                 imagefilledrectangle($tmpImg, 0, 0, $tmpWidth, $tmpHeight, $tmpWhite);
                 imagettftext($tmpImg, $t, 0, 0, $tmpHeight, $tmpBlack, $font, $text);
                 $allWhite = true;
@@ -569,10 +543,7 @@ class Helper
                 $nx = abs($ex - $sx);
                 $ny = abs($ey - $sy);
                 $img = imagecreate(max($nx + 4, 1), max($ny + 4, 1));
-                $white = imagecolorallocate($img, $backR, $backG, $backB);
-                if ($transparent) {
-                    $white = imagecolortransparent($img, $white);
-                }
+                $white = $this->getBackColor($img);
                 imagefilledrectangle($img, 0, 0, $nx + 4, $ny + 4, $white);
                 imagecopy($img, $tmpImg, 2, 2, $sx, $sy, min($nx + 2, $tmpWidth - $sx), min($ny + 2, $tmpHeight - $sy));
                 break;
@@ -596,11 +567,8 @@ class Helper
                 $tmpWidth = abs($tmpDim[2] - $tmpDim[0]) * 2;
                 $tmpHeight = abs($tmpDim[3] - $tmpDim[5]) * 2;
                 $tmpImg = imagecreate(max($tmpWidth, 1), max($tmpHeight, 1));
-                $tmpBlack = imagecolorallocate($tmpImg, $fontR, $fontG, $fontB);
-                $tmpWhite = imagecolorallocate($tmpImg, $backR, $backG, $backB);
-                if ($transparent) {
-                    $tmpWhite = imagecolortransparent($tmpImg, $tmpWhite);
-                }
+                $tmpBlack = $this->getFontColor($tmpImg);
+                $tmpWhite = $this->getBackColor($tmpImg);
                 imagefilledrectangle($tmpImg, 0, 0, $tmpWidth, $tmpHeight, $tmpWhite);
                 imagettftext($tmpImg, $t, 0, 5, $tmpHeight / 2, $tmpBlack, $font, $text);
                 $img = $tmpImg;
@@ -635,17 +603,11 @@ class Helper
                 $ny = abs($ey - $sy);
                 if ($allWhite) {
                     $img = imagecreate(1, max($high, 1));
-                    $white = imagecolorallocate($img, $backR, $backG, $backB);
-                    if ($transparent) {
-                        $white = imagecolortransparent($img, $white);
-                    }
+                    $white = $this->getBackColor($img);
                     imagefilledrectangle($img, 0, 0, 1, $high, $white);
                 } else {
                     $img = imagecreate(max($nx + 4, 1), max($ny + 4, 1));
-                    $white = imagecolorallocate($img, $backR, $backG, $backB);
-                    if ($transparent) {
-                        $white = imagecolortransparent($img, $white);
-                    }
+                    $white = $this->getBackColor($img);
                     imagefilledrectangle($img, 0, 0, $nx + 4, $ny + 4, $white);
                     imagecopy(
                         $img,
@@ -678,11 +640,8 @@ class Helper
                 $tmpWidth = abs($tmpDim[2] - $tmpDim[0]) * 2;
                 $tmpHeight = abs($tmpDim[3] - $tmpDim[5]) * 2;
                 $tmpImg = imagecreate(max($tmpWidth, 1), max($tmpHeight, 1));
-                $tmpBlack = imagecolorallocate($tmpImg, $fontR, $fontG, $fontB);
-                $tmpWhite = imagecolorallocate($tmpImg, $backR, $backG, $backB);
-                if ($transparent) {
-                    $tmpWhite = imagecolortransparent($tmpImg, $tmpWhite);
-                }
+                $tmpBlack = $this->getFontColor($tmpImg);
+                $tmpWhite = $this->getBackColor($tmpImg);
                 imagefilledrectangle($tmpImg, 0, 0, $tmpWidth, $tmpHeight, $tmpWhite);
                 imagettftext($tmpImg, $t, 0, 0, $tmpHeight / 4, $tmpBlack, $font, $text);
                 // 	imagettftext($tmpImg, $t, 0,5,5,$tmpBlack, $font,$text);
@@ -718,17 +677,11 @@ class Helper
                 $ny = abs($ey - $sy);
                 if ($allWhite) {
                     $img = imagecreate(1, max($high, 1));
-                    $white = imagecolorallocate($img, $backR, $backG, $backB);
-                    if ($transparent) {
-                        $white = imagecolortransparent($img, $white);
-                    }
+                    $white = $this->getBackColor($img);
                     imagefilledrectangle($img, 0, 0, 1, $high, $white);
                 } else {
                     $img = imagecreate(max($nx + 4, 1), max($ny + 4, 1));
-                    $white = imagecolorallocate($img, $backR, $backG, $backB);
-                    if ($transparent) {
-                        $white = imagecolortransparent($img, $white);
-                    }
+                    $white = $this->getBackColor($img);
                     imagefilledrectangle($img, 0, 0, $nx + 4, $ny + 4, $white);
                     imagecopy(
                         $img,
@@ -757,13 +710,6 @@ class Helper
     public function displayText($text, $size)
     {
         $dirFonts = $this->getDirFonts();
-        $backR = $this->getBackR();
-        $backG = $this->getBackG();
-        $backB = $this->getBackB();
-        $fontR = $this->getFontR();
-        $fontG = $this->getFontG();
-        $fontB = $this->getFontB();
-        $transparent = $this->getTransparent();
         $size = max($size, 6);
         $text = stripslashes($text);
         $font = $dirFonts . "/cmr10.ttf";
@@ -773,11 +719,8 @@ class Helper
         $dx = max($widthDim[2], $widthDim[4]) - min($widthDim[0], $widthDim[6]) + ceil($size / 8);
         $dy = max($heightDim[1], $heightDim[3]) - min($heightDim[5], $heightDim[7]) + ceil($size / 8);
         $img = imagecreate(max($dx, 1), max($dy, 1));
-        $black = imagecolorallocate($img, $fontR, $fontG, $fontB);
-        $white = imagecolorallocate($img, $backR, $backG, $backB);
-        if ($transparent) {
-            $white = imagecolortransparent($img, $white);
-        }
+        $black = $this->getFontColor($img);
+        $white = $this->getBackColor($img);
         imagefilledrectangle($img, 0, 0, $dx, $dy, $white);
         //ImageRectangle($img,0,0,$dx-1,$dy-1,$black);
         imagettftext($img, $size, $angle, 0, -min($heightDim[5], $heightDim[7]), $black, $font, $text);
@@ -796,13 +739,6 @@ class Helper
         $symbols = $this->getSymbols();
         $fontsMath = $this->getMathFonts();
         $dirFonts = $this->getDirFonts();
-        $backR = $this->getBackR();
-        $backG = $this->getBackG();
-        $backB = $this->getBackB();
-        $fontR = $this->getFontR();
-        $fontG = $this->getFontG();
-        $fontB = $this->getFontB();
-        $transparent = $this->getTransparent();
         $text = stripslashes($text);
         if (isset($fontsMath[$text])) {
             $font = $dirFonts . "/" . $fontsMath[$text] . ".ttf";
@@ -820,11 +756,8 @@ class Helper
         $dx = max($widthDim[2], $widthDim[4]) - min($widthDim[0], $widthDim[6]) + ceil($size / 8);
         $dy = max($heightDim[1], $heightDim[3]) - min($heightDim[5], $heightDim[7]) + ceil($size / 8);
         $img = imagecreate(max($dx, 1), max($dy, 1));
-        $black = imagecolorallocate($img, $fontR, $fontG, $fontB);
-        $white = imagecolorallocate($img, $backR, $backG, $backB);
-        if ($transparent) {
-            $white = imagecolortransparent($img, $white);
-        }
+        $black = $this->getFontColor($img);
+        $white = $this->getBackColor($img);
         imagefilledrectangle($img, 0, 0, $dx, $dy, $white);
         //ImageRectangle($img,0,0,$dx-1,$dy-1,$black);
         imagettftext($img, $size, 0, 0, -min($heightDim[5], $heightDim[7]), $black, $font, $text);
@@ -853,13 +786,6 @@ class Helper
      */
     public function alignment2($image1, $base1, $image2, $base2)
     {
-        $backR = $this->getBackR();
-        $backG = $this->getBackG();
-        $backB = $this->getBackB();
-        $fontR = $this->getFontR();
-        $fontG = $this->getFontG();
-        $fontB = $this->getFontB();
-        $transparent = $this->getTransparent();
         $width1 = imagesx($image1);
         $height1 = imagesy($image1);
         $width2 = imagesx($image2);
@@ -869,11 +795,7 @@ class Helper
         $width = $width1 + $width2;
         $height = $top + $bottom;
         $result = imagecreate(max($width, 1), max($height, 1));
-        $black = imagecolorallocate($result, $fontR, $fontG, $fontB);
-        $white = imagecolorallocate($result, $backR, $backG, $backB);
-        if ($transparent) {
-            $white = imagecolortransparent($result, $white);
-        }
+        $white = $this->getBackColor($result);
         imagefilledrectangle($result, 0, 0, $width - 1, $height - 1, $white);
         imagecopy($result, $image1, 0, $top - $base1, 0, 0, $width1, $height1);
         imagecopy($result, $image2, $width1, $top - $base2, 0, 0, $width2, $height2);
@@ -893,13 +815,6 @@ class Helper
      */
     public function alignment3($image1, $base1, $image2, $base2, $image3, $base3)
     {
-        $backR = $this->getBackR();
-        $backG = $this->getBackG();
-        $backB = $this->getBackB();
-        $fontR = $this->getFontR();
-        $fontG = $this->getFontG();
-        $fontB = $this->getFontB();
-        $transparent = $this->getTransparent();
         $width1 = imagesx($image1);
         $height1 = imagesy($image1);
         $width2 = imagesx($image2);
@@ -911,11 +826,8 @@ class Helper
         $width = $width1 + $width2 + $width3;
         $height = $top + $bottom;
         $result = imagecreate(max($width, 1), max($height, 1));
-        $black = imagecolorallocate($result, $fontR, $fontG, $fontB);
-        $white = imagecolorallocate($result, $backR, $backG, $backB);
-        if ($transparent) {
-            $white = imagecolortransparent($result, $white);
-        }
+        $black = $this->getFontColor($result);
+        $white = $this->getBackColor($result);
         imagefilledrectangle($result, 0, 0, $width - 1, $height - 1, $white);
         imagecopy($result, $image1, 0, $top - $base1, 0, 0, $width1, $height1);
         imagecopy($result, $image2, $width1, $top - $base2, 0, 0, $width2, $height2);
@@ -926,52 +838,55 @@ class Helper
     }
 
     /**
-     * @param $backB
+     * Set the background color
+     *
+     * @param int $R
+     * @param int $G
+     * @param int $B
      */
-    public function setBackB($backB)
-    {
-        $this->backB = $backB;
+    public function setBack($R, $G, $B) {
+        $this->backR = $R;
+        $this->backG = $G;
+        $this->backB = $B;
     }
 
     /**
+     * Set the font color
+     *
+     * @param int $R
+     * @param int $G
+     * @param int $B
+     */
+    public function setFont($R, $G, $B) {
+        $this->fontR = $R;
+        $this->fontG = $G;
+        $this->fontB = $B;
+    }
+
+    /**
+     * Get the background color allocated for the given image ressource
+     *
+     * @param resource $img
      * @return int
      */
-    public function getBackB()
-    {
-        return $this->backB;
+    public function getBackColor($img) {
+        $back = imagecolorallocate($img, $this->backR, $this->backG, $this->backB);
+        if($this->transparent) {
+            $back = imagecolortransparent($img, $back);
+        }
+        return $back;
     }
 
     /**
-     * @param $backG
-     */
-    public function setBackG($backG)
-    {
-        $this->backG = $backG;
-    }
-
-    /**
+     * Get the font color allocated for the given image ressource
+     *
+     * @param resource $img
      * @return int
      */
-    public function getBackG()
-    {
-        return $this->backG;
+    public function getFontColor($img) {
+        return imagecolorallocate($img, $this->fontR, $this->fontG, $this->fontB);
     }
 
-    /**
-     * @param $backR
-     */
-    public function setBackR($backR)
-    {
-        $this->backR = $backR;
-    }
-
-    /**
-     * @return int
-     */
-    public function getBackR()
-    {
-        return $this->backR;
-    }
 
     /**
      * @param $dirFonts
@@ -1003,54 +918,6 @@ class Helper
     public function getDirImg()
     {
         return $this->dirImg;
-    }
-
-    /**
-     * @param $fontB
-     */
-    public function setFontB($fontB)
-    {
-        $this->fontB = $fontB;
-    }
-
-    /**
-     * @return int
-     */
-    public function getFontB()
-    {
-        return $this->fontB;
-    }
-
-    /**
-     * @param $fontG
-     */
-    public function setFontG($fontG)
-    {
-        $this->fontG = $fontG;
-    }
-
-    /**
-     * @return int
-     */
-    public function getFontG()
-    {
-        return $this->fontG;
-    }
-
-    /**
-     * @param $fontR
-     */
-    public function setFontR($fontR)
-    {
-        $this->fontR = $fontR;
-    }
-
-    /**
-     * @return int
-     */
-    public function getFontR()
-    {
-        return $this->fontR;
     }
 
     /**
