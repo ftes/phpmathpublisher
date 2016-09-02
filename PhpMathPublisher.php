@@ -99,7 +99,7 @@ class PhpMathPublisher
             $formula->draw($this->size);
             $v = 1000 - imagesy($formula->image) + $formula->verticalBased + 3;
             //1000+baseline ($v) is recorded in the name of the image
-            ImagePNG($formula->image, $dirImg . "/math_" . $v . "_" . $nameImg);
+            imagepng($formula->image, $dirImg . "/math_" . $v . "_" . $nameImg);
         }
         $vAlign = $v - 1000;
 

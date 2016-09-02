@@ -437,60 +437,60 @@ class Helper
         $text = trim(stripslashes($text));
         switch ($text) {
             case '':
-                $img = ImageCreate(1, max($high, 1));
-                $white = ImageColorAllocate($img, $backR, $backG, $backB);
+                $img = imagecreate(1, max($high, 1));
+                $white = imagecolorallocate($img, $backR, $backG, $backB);
                 if ($transparent) {
                     $white = imagecolortransparent($img, $white);
                 }
-                ImageFilledRectangle($img, 0, 0, 1, $high, $white);
+                imagefilledrectangle($img, 0, 0, 1, $high, $white);
                 break;
             case '~':
-                $img = ImageCreate(1, max($high, 1));
-                $white = ImageColorAllocate($img, $backR, $backG, $backB);
+                $img = imagecreate(1, max($high, 1));
+                $white = imagecolorallocate($img, $backR, $backG, $backB);
                 $white = imagecolortransparent($img, $white);
-                ImageFilledRectangle($img, 0, 0, 1, $high, $white);
+                imagefilledrectangle($img, 0, 0, 1, $high, $white);
                 break;
             case 'vert':
-                $img = ImageCreate(6, max($high, 1));
-                $white = ImageColorAllocate($img, $backR, $backG, $backB);
+                $img = imagecreate(6, max($high, 1));
+                $white = imagecolorallocate($img, $backR, $backG, $backB);
                 if ($transparent) {
                     $white = imagecolortransparent($img, $white);
                 }
-                $black = ImageColorAllocate($img, $fontR, $fontG, $fontB);
-                ImageFilledRectangle($img, 0, 0, 6, $high, $white);
-                ImageFilledRectangle($img, 2, 0, 2, $high, $black);
-                ImageFilledRectangle($img, 4, 0, 4, $high, $black);
+                $black = imagecolorallocate($img, $fontR, $fontG, $fontB);
+                imagefilledrectangle($img, 0, 0, 6, $high, $white);
+                imagefilledrectangle($img, 2, 0, 2, $high, $black);
+                imagefilledrectangle($img, 4, 0, 4, $high, $black);
                 break;
             case '|':
-                $img = ImageCreate(5, max($high, 1));
-                $white = ImageColorAllocate($img, $backR, $backG, $backB);
+                $img = imagecreate(5, max($high, 1));
+                $white = imagecolorallocate($img, $backR, $backG, $backB);
                 if ($transparent) {
                     $white = imagecolortransparent($img, $white);
                 }
-                $black = ImageColorAllocate($img, $fontR, $fontG, $fontB);
-                ImageFilledRectangle($img, 0, 0, 5, $high, $white);
-                ImageFilledRectangle($img, 2, 0, 2, $high, $black);
+                $black = imagecolorallocate($img, $fontR, $fontG, $fontB);
+                imagefilledrectangle($img, 0, 0, 5, $high, $white);
+                imagefilledrectangle($img, 2, 0, 2, $high, $black);
                 break;
             case 'right':
                 $font = $dirFonts . "/" . $fontsMath[$text] . ".ttf";
                 $t = 16;
                 $text = $symbols[$text];
-                $tmpDim = ImageTTFBBox($t, 0, $font, $text);
+                $tmpDim = imagettfbbox($t, 0, $font, $text);
                 $tmpWidth = abs($tmpDim[2] - $tmpDim[0]) + 2;
                 $tmpHeight = abs($tmpDim[3] - $tmpDim[5]) + 2;
-                $tmpImg = ImageCreate(max($tmpWidth, 1), max($tmpHeight, 1));
-                $tmpBlack = ImageColorAllocate($tmpImg, $fontR, $fontG, $fontB);
-                $tmpWhite = ImageColorAllocate($tmpImg, $backR, $backG, $backB);
+                $tmpImg = imagecreate(max($tmpWidth, 1), max($tmpHeight, 1));
+                $tmpBlack = imagecolorallocate($tmpImg, $fontR, $fontG, $fontB);
+                $tmpWhite = imagecolorallocate($tmpImg, $backR, $backG, $backB);
                 if ($transparent) {
                     $tmpWhite = imagecolortransparent($tmpImg, $tmpWhite);
                 }
-                ImageFilledRectangle($tmpImg, 0, 0, $tmpWidth, $tmpHeight, $tmpWhite);
-                ImageTTFText($tmpImg, $t, 0, 0, $tmpHeight, $tmpBlack, $font, $text);
+                imagefilledrectangle($tmpImg, 0, 0, $tmpWidth, $tmpHeight, $tmpWhite);
+                imagettftext($tmpImg, $t, 0, 0, $tmpHeight, $tmpBlack, $font, $text);
                 $allWhite = true;
                 $sx = $sy = $ex = $ey = -1;
                 for ($y = 0; $y < $tmpHeight; $y++) {
                     for ($x = 0; $x < $tmpWidth; $x++) {
-                        $rgb = ImageColorAt($tmpImg, $x, $y);
+                        $rgb = imagecolorat($tmpImg, $x, $y);
                         if ($rgb != $tmpWhite) {
                             $allWhite = false;
                             if ($sy == -1) {
@@ -515,35 +515,35 @@ class Helper
                 }
                 $nx = abs($ex - $sx);
                 $ny = abs($ey - $sy);
-                $img = ImageCreate(max($nx + 4, 1), max($ny + 4, 1));
-                $white = ImageColorAllocate($img, $backR, $backG, $backB);
+                $img = imagecreate(max($nx + 4, 1), max($ny + 4, 1));
+                $white = imagecolorallocate($img, $backR, $backG, $backB);
                 if ($transparent) {
                     $white = imagecolortransparent($img, $white);
                 }
-                ImageFilledRectangle($img, 0, 0, $nx + 4, $ny + 4, $white);
-                ImageCopy($img, $tmpImg, 2, 2, $sx, $sy, min($nx + 2, $tmpWidth - $sx), min($ny + 2, $tmpHeight - $sy));
+                imagefilledrectangle($img, 0, 0, $nx + 4, $ny + 4, $white);
+                imagecopy($img, $tmpImg, 2, 2, $sx, $sy, min($nx + 2, $tmpWidth - $sx), min($ny + 2, $tmpHeight - $sy));
                 break;
             case '_hat':
                 $font = $dirFonts . "/" . $fontsMath[$text] . ".ttf";
                 $t = $high;
                 $text = $symbols[$text];
-                $tmpDim = ImageTTFBBox($t, 0, $font, $text);
+                $tmpDim = imagettfbbox($t, 0, $font, $text);
                 $tmpWidth = abs($tmpDim[2] - $tmpDim[0]);
                 $tmpHeight = abs($tmpDim[3] - $tmpDim[5]) * 4;
-                $tmpImg = ImageCreate(max($tmpWidth, 1), max($tmpHeight, 1));
-                $tmpBlack = ImageColorAllocate($tmpImg, $fontR, $fontG, $fontB);
-                $tmpWhite = ImageColorAllocate($tmpImg, $backR, $backG, $backB);
+                $tmpImg = imagecreate(max($tmpWidth, 1), max($tmpHeight, 1));
+                $tmpBlack = imagecolorallocate($tmpImg, $fontR, $fontG, $fontB);
+                $tmpWhite = imagecolorallocate($tmpImg, $backR, $backG, $backB);
                 if ($transparent) {
                     $tmpWhite = imagecolortransparent($tmpImg, $tmpWhite);
                 }
-                ImageFilledRectangle($tmpImg, 0, 0, $tmpWidth, $tmpHeight, $tmpWhite);
-                ImageTTFText($tmpImg, $t, 0, 0, $tmpHeight, $tmpBlack, $font, $text);
+                imagefilledrectangle($tmpImg, 0, 0, $tmpWidth, $tmpHeight, $tmpWhite);
+                imagettftext($tmpImg, $t, 0, 0, $tmpHeight, $tmpBlack, $font, $text);
                 $allWhite = true;
                 $img = $tmpImg;
                 $sx = $sy = $ex = $ey = -1;
                 for ($y = 0; $y < $tmpHeight; $y++) {
                     for ($x = 0; $x < $tmpWidth; $x++) {
-                        $rgb = ImageColorAt($tmpImg, $x, $y);
+                        $rgb = imagecolorat($tmpImg, $x, $y);
                         if ($rgb != $tmpWhite) {
                             $allWhite = false;
                             if ($sy == -1) {
@@ -568,13 +568,13 @@ class Helper
                 }
                 $nx = abs($ex - $sx);
                 $ny = abs($ey - $sy);
-                $img = ImageCreate(max($nx + 4, 1), max($ny + 4, 1));
-                $white = ImageColorAllocate($img, $backR, $backG, $backB);
+                $img = imagecreate(max($nx + 4, 1), max($ny + 4, 1));
+                $white = imagecolorallocate($img, $backR, $backG, $backB);
                 if ($transparent) {
                     $white = imagecolortransparent($img, $white);
                 }
-                ImageFilledRectangle($img, 0, 0, $nx + 4, $ny + 4, $white);
-                ImageCopy($img, $tmpImg, 2, 2, $sx, $sy, min($nx + 2, $tmpWidth - $sx), min($ny + 2, $tmpHeight - $sy));
+                imagefilledrectangle($img, 0, 0, $nx + 4, $ny + 4, $white);
+                imagecopy($img, $tmpImg, 2, 2, $sx, $sy, min($nx + 2, $tmpWidth - $sx), min($ny + 2, $tmpHeight - $sy));
                 break;
             case '_dintegrale':
             case '_tintegrale':
@@ -590,25 +590,25 @@ class Helper
                 $text = $symbols[$text];
             }
                 do {
-                    $tmpDim = ImageTTFBBox($t, 0, $font, $text);
+                    $tmpDim = imagettfbbox($t, 0, $font, $text);
                     $t += 1;
                 } while ((abs($tmpDim[3] - $tmpDim[5]) < 1.2 * $high));
                 $tmpWidth = abs($tmpDim[2] - $tmpDim[0]) * 2;
                 $tmpHeight = abs($tmpDim[3] - $tmpDim[5]) * 2;
-                $tmpImg = ImageCreate(max($tmpWidth, 1), max($tmpHeight, 1));
-                $tmpBlack = ImageColorAllocate($tmpImg, $fontR, $fontG, $fontB);
-                $tmpWhite = ImageColorAllocate($tmpImg, $backR, $backG, $backB);
+                $tmpImg = imagecreate(max($tmpWidth, 1), max($tmpHeight, 1));
+                $tmpBlack = imagecolorallocate($tmpImg, $fontR, $fontG, $fontB);
+                $tmpWhite = imagecolorallocate($tmpImg, $backR, $backG, $backB);
                 if ($transparent) {
                     $tmpWhite = imagecolortransparent($tmpImg, $tmpWhite);
                 }
-                ImageFilledRectangle($tmpImg, 0, 0, $tmpWidth, $tmpHeight, $tmpWhite);
-                ImageTTFText($tmpImg, $t, 0, 5, $tmpHeight / 2, $tmpBlack, $font, $text);
+                imagefilledrectangle($tmpImg, 0, 0, $tmpWidth, $tmpHeight, $tmpWhite);
+                imagettftext($tmpImg, $t, 0, 5, $tmpHeight / 2, $tmpBlack, $font, $text);
                 $img = $tmpImg;
                 $allWhite = true;
                 $sx = $sy = $ex = $ey = -1;
                 for ($y = 0; $y < $tmpHeight; $y++) {
                     for ($x = 0; $x < $tmpWidth; $x++) {
-                        $rgb = ImageColorAt($tmpImg, $x, $y);
+                        $rgb = imagecolorat($tmpImg, $x, $y);
                         if ($rgb != $tmpWhite) {
                             $allWhite = false;
                             if ($sy == -1) {
@@ -634,20 +634,20 @@ class Helper
                 $nx = abs($ex - $sx);
                 $ny = abs($ey - $sy);
                 if ($allWhite) {
-                    $img = ImageCreate(1, max($high, 1));
-                    $white = ImageColorAllocate($img, $backR, $backG, $backB);
+                    $img = imagecreate(1, max($high, 1));
+                    $white = imagecolorallocate($img, $backR, $backG, $backB);
                     if ($transparent) {
                         $white = imagecolortransparent($img, $white);
                     }
-                    ImageFilledRectangle($img, 0, 0, 1, $high, $white);
+                    imagefilledrectangle($img, 0, 0, 1, $high, $white);
                 } else {
-                    $img = ImageCreate(max($nx + 4, 1), max($ny + 4, 1));
-                    $white = ImageColorAllocate($img, $backR, $backG, $backB);
+                    $img = imagecreate(max($nx + 4, 1), max($ny + 4, 1));
+                    $white = imagecolorallocate($img, $backR, $backG, $backB);
                     if ($transparent) {
                         $white = imagecolortransparent($img, $white);
                     }
-                    ImageFilledRectangle($img, 0, 0, $nx + 4, $ny + 4, $white);
-                    ImageCopy(
+                    imagefilledrectangle($img, 0, 0, $nx + 4, $ny + 4, $white);
+                    imagecopy(
                         $img,
                         $tmpImg,
                         2,
@@ -672,26 +672,26 @@ class Helper
                     $text = $symbols[$text];
                 }
                 do {
-                    $tmpDim = ImageTTFBBox($t, 0, $font, $text);
+                    $tmpDim = imagettfbbox($t, 0, $font, $text);
                     $t += 1;
                 } while ((abs($tmpDim[3] - $tmpDim[5]) < $high));
                 $tmpWidth = abs($tmpDim[2] - $tmpDim[0]) * 2;
                 $tmpHeight = abs($tmpDim[3] - $tmpDim[5]) * 2;
-                $tmpImg = ImageCreate(max($tmpWidth, 1), max($tmpHeight, 1));
-                $tmpBlack = ImageColorAllocate($tmpImg, $fontR, $fontG, $fontB);
-                $tmpWhite = ImageColorAllocate($tmpImg, $backR, $backG, $backB);
+                $tmpImg = imagecreate(max($tmpWidth, 1), max($tmpHeight, 1));
+                $tmpBlack = imagecolorallocate($tmpImg, $fontR, $fontG, $fontB);
+                $tmpWhite = imagecolorallocate($tmpImg, $backR, $backG, $backB);
                 if ($transparent) {
                     $tmpWhite = imagecolortransparent($tmpImg, $tmpWhite);
                 }
-                ImageFilledRectangle($tmpImg, 0, 0, $tmpWidth, $tmpHeight, $tmpWhite);
-                ImageTTFText($tmpImg, $t, 0, 0, $tmpHeight / 4, $tmpBlack, $font, $text);
-                // 	ImageTTFText($tmpImg, $t, 0,5,5,$tmpBlack, $font,$text);
+                imagefilledrectangle($tmpImg, 0, 0, $tmpWidth, $tmpHeight, $tmpWhite);
+                imagettftext($tmpImg, $t, 0, 0, $tmpHeight / 4, $tmpBlack, $font, $text);
+                // 	imagettftext($tmpImg, $t, 0,5,5,$tmpBlack, $font,$text);
                 //	$img=$tmpImg;
                 $allWhite = true;
                 $sx = $sy = $ex = $ey = -1;
                 for ($y = 0; $y < $tmpHeight; $y++) {
                     for ($x = 0; $x < $tmpWidth; $x++) {
-                        $rgb = ImageColorAt($tmpImg, $x, $y);
+                        $rgb = imagecolorat($tmpImg, $x, $y);
                         if ($rgb != $tmpWhite) {
                             $allWhite = false;
                             if ($sy == -1) {
@@ -717,20 +717,20 @@ class Helper
                 $nx = abs($ex - $sx);
                 $ny = abs($ey - $sy);
                 if ($allWhite) {
-                    $img = ImageCreate(1, max($high, 1));
-                    $white = ImageColorAllocate($img, $backR, $backG, $backB);
+                    $img = imagecreate(1, max($high, 1));
+                    $white = imagecolorallocate($img, $backR, $backG, $backB);
                     if ($transparent) {
                         $white = imagecolortransparent($img, $white);
                     }
-                    ImageFilledRectangle($img, 0, 0, 1, $high, $white);
+                    imagefilledrectangle($img, 0, 0, 1, $high, $white);
                 } else {
-                    $img = ImageCreate(max($nx + 4, 1), max($ny + 4, 1));
-                    $white = ImageColorAllocate($img, $backR, $backG, $backB);
+                    $img = imagecreate(max($nx + 4, 1), max($ny + 4, 1));
+                    $white = imagecolorallocate($img, $backR, $backG, $backB);
                     if ($transparent) {
                         $white = imagecolortransparent($img, $white);
                     }
-                    ImageFilledRectangle($img, 0, 0, $nx + 4, $ny + 4, $white);
-                    ImageCopy(
+                    imagefilledrectangle($img, 0, 0, $nx + 4, $ny + 4, $white);
+                    imagecopy(
                         $img,
                         $tmpImg,
                         2,
@@ -744,7 +744,7 @@ class Helper
                 break;
         }
 
-        //$rouge=ImageColorAllocate($img,255,0,0);
+        //$rouge=imagecolorallocate($img,255,0,0);
         //ImageRectangle($img,0,0,ImageSX($img)-1,ImageSY($img)-1,$rouge);
         return $img;
     }
@@ -768,19 +768,19 @@ class Helper
         $text = stripslashes($text);
         $font = $dirFonts . "/cmr10.ttf";
         $textHeight = 'dg' . $text;
-        $heightDim = ImageTTFBBox($size, 0, $font, $textHeight);
-        $widthDim = ImageTTFBBox($size, 0, $font, $text);
+        $heightDim = imagettfbbox($size, 0, $font, $textHeight);
+        $widthDim = imagettfbbox($size, 0, $font, $text);
         $dx = max($widthDim[2], $widthDim[4]) - min($widthDim[0], $widthDim[6]) + ceil($size / 8);
         $dy = max($heightDim[1], $heightDim[3]) - min($heightDim[5], $heightDim[7]) + ceil($size / 8);
-        $img = ImageCreate(max($dx, 1), max($dy, 1));
-        $black = ImageColorAllocate($img, $fontR, $fontG, $fontB);
-        $white = ImageColorAllocate($img, $backR, $backG, $backB);
+        $img = imagecreate(max($dx, 1), max($dy, 1));
+        $black = imagecolorallocate($img, $fontR, $fontG, $fontB);
+        $white = imagecolorallocate($img, $backR, $backG, $backB);
         if ($transparent) {
             $white = imagecolortransparent($img, $white);
         }
-        ImageFilledRectangle($img, 0, 0, $dx, $dy, $white);
+        imagefilledrectangle($img, 0, 0, $dx, $dy, $white);
         //ImageRectangle($img,0,0,$dx-1,$dy-1,$black);
-        ImageTTFText($img, $size, $angle, 0, -min($heightDim[5], $heightDim[7]), $black, $font, $text);
+        imagettftext($img, $size, $angle, 0, -min($heightDim[5], $heightDim[7]), $black, $font, $text);
 
         return $img;
     }
@@ -815,19 +815,19 @@ class Helper
             $text = $symbols[$text];
         }
         $textHeight = 'dg' . $text;
-        $heightDim = ImageTTFBBox($size, 0, $font, $textHeight);
-        $widthDim = ImageTTFBBox($size, 0, $font, $text);
+        $heightDim = imagettfbbox($size, 0, $font, $textHeight);
+        $widthDim = imagettfbbox($size, 0, $font, $text);
         $dx = max($widthDim[2], $widthDim[4]) - min($widthDim[0], $widthDim[6]) + ceil($size / 8);
         $dy = max($heightDim[1], $heightDim[3]) - min($heightDim[5], $heightDim[7]) + ceil($size / 8);
-        $img = ImageCreate(max($dx, 1), max($dy, 1));
-        $black = ImageColorAllocate($img, $fontR, $fontG, $fontB);
-        $white = ImageColorAllocate($img, $backR, $backG, $backB);
+        $img = imagecreate(max($dx, 1), max($dy, 1));
+        $black = imagecolorallocate($img, $fontR, $fontG, $fontB);
+        $white = imagecolorallocate($img, $backR, $backG, $backB);
         if ($transparent) {
             $white = imagecolortransparent($img, $white);
         }
-        ImageFilledRectangle($img, 0, 0, $dx, $dy, $white);
+        imagefilledrectangle($img, 0, 0, $dx, $dy, $white);
         //ImageRectangle($img,0,0,$dx-1,$dy-1,$black);
-        ImageTTFText($img, $size, 0, 0, -min($heightDim[5], $heightDim[7]), $black, $font, $text);
+        imagettftext($img, $size, 0, 0, -min($heightDim[5], $heightDim[7]), $black, $font, $text);
 
         return $img;
     }
@@ -868,15 +868,15 @@ class Helper
         $bottom = max($height1 - $base1, $height2 - $base2);
         $width = $width1 + $width2;
         $height = $top + $bottom;
-        $result = ImageCreate(max($width, 1), max($height, 1));
-        $black = ImageColorAllocate($result, $fontR, $fontG, $fontB);
-        $white = ImageColorAllocate($result, $backR, $backG, $backB);
+        $result = imagecreate(max($width, 1), max($height, 1));
+        $black = imagecolorallocate($result, $fontR, $fontG, $fontB);
+        $white = imagecolorallocate($result, $backR, $backG, $backB);
         if ($transparent) {
             $white = imagecolortransparent($result, $white);
         }
-        ImageFilledRectangle($result, 0, 0, $width - 1, $height - 1, $white);
-        ImageCopy($result, $image1, 0, $top - $base1, 0, 0, $width1, $height1);
-        ImageCopy($result, $image2, $width1, $top - $base2, 0, 0, $width2, $height2);
+        imagefilledrectangle($result, 0, 0, $width - 1, $height - 1, $white);
+        imagecopy($result, $image1, 0, $top - $base1, 0, 0, $width1, $height1);
+        imagecopy($result, $image2, $width1, $top - $base2, 0, 0, $width2, $height2);
 
         //ImageRectangle($result,0,0,$width-1,$height-1,$black);
         return $result;
@@ -910,16 +910,16 @@ class Helper
         $bottom = max($height1 - $base1, $height2 - $base2, $height3 - $base3);
         $width = $width1 + $width2 + $width3;
         $height = $top + $bottom;
-        $result = ImageCreate(max($width, 1), max($height, 1));
-        $black = ImageColorAllocate($result, $fontR, $fontG, $fontB);
-        $white = ImageColorAllocate($result, $backR, $backG, $backB);
+        $result = imagecreate(max($width, 1), max($height, 1));
+        $black = imagecolorallocate($result, $fontR, $fontG, $fontB);
+        $white = imagecolorallocate($result, $backR, $backG, $backB);
         if ($transparent) {
             $white = imagecolortransparent($result, $white);
         }
-        ImageFilledRectangle($result, 0, 0, $width - 1, $height - 1, $white);
-        ImageCopy($result, $image1, 0, $top - $base1, 0, 0, $width1, $height1);
-        ImageCopy($result, $image2, $width1, $top - $base2, 0, 0, $width2, $height2);
-        ImageCopy($result, $image3, $width1 + $width2, $top - $base3, 0, 0, $width3, $height3);
+        imagefilledrectangle($result, 0, 0, $width - 1, $height - 1, $white);
+        imagecopy($result, $image1, 0, $top - $base1, 0, 0, $width1, $height1);
+        imagecopy($result, $image2, $width1, $top - $base2, 0, 0, $width2, $height2);
+        imagecopy($result, $image3, $width1 + $width2, $top - $base3, 0, 0, $width3, $height3);
 
         //ImageRectangle($result,0,0,$width-1,$height-1,$black);
         return $result;
