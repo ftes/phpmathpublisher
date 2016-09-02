@@ -120,7 +120,7 @@ class PhpMathPublisher
         foreach ($regs as $math) {
             $t = str_replace('<m>', '', $math[0]);
             $t = str_replace('</m>', '', $t);
-            $code = $this->mathImage(trim($t), $this->size, $this->path);
+            $code = $this->mathImage(trim($t));
             $text = str_replace($math[0], $code, $text);
         }
 
