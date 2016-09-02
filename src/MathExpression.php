@@ -916,7 +916,11 @@ class MathExpression extends Expression
         }
         $leftBase = imagesy($leftImg) / 2;
         if ($this->nodes[3]->text == "&$") {
-            $rightImg = $this->helper->parenthesis($heightExp, $this->nodes[3]->nodes[0]->text);
+            if(isset($this->nodes[3]->nodes[0])) {
+                $rightImg = $this->helper->parenthesis($heightExp, $this->nodes[3]->nodes[0]->text);
+            } else {
+                $rightImg = $this->helper->parenthesis($heightExp, '');
+            }
         } else {
             $rightImg = $this->helper->parenthesis($heightExp, $this->nodes[3]->text);
         }
