@@ -13,9 +13,6 @@
 
 namespace RL\PhpMathPublisher;
 
-use RL\PhpMathPublisher\Helper;
-use RL\PhpMathPublisher\MathExpression;
-
 /**
  * \RL\PhpMathPublisher\PhpMathPublisher
  *
@@ -55,10 +52,12 @@ class PhpMathPublisher
     }
 
     /**
-     * @param $n
+     * Check if the wanted image already exists in the cache
+     *
+     * @param string $n the base name of the image
      * @return int
      */
-    public function detectImg($n)
+    protected function detectImage($n)
     {
         /*
          Detects if the formula image already exists in the $dirImg cache directory.
@@ -83,30 +82,43 @@ class PhpMathPublisher
     }
 
     /**
-     * @param $text
+     * Creates the formula image (if the image is not in the cache) and returns the <img src=...></img> html code.
+     *
+     * @param string $text the formula
      * @return string
      */
     public function mathImage($text)
     {
-        /*
-         Creates the formula image (if the image is not in the cache) and returns the <img src=...></img> html code.
-         */
         $dirImg = $this->helper->getDirImg();
         $nameImg = md5(trim($text) . $this->size) . '.png';
-        $v = $this->detectImg($nameImg);
+        $v = $this->detectImage($nameImg);
         if ($v == 0) {
             //the image doesn't exist in the cache directory. we create it.
-            $formula = new MathExpression($this->helper->tableExpression(trim($text)), $this->helper);
-            $formula->draw($this->size);
-            $v = 1000 - imagesy($formula->image) + $formula->verticalBased + 3;
-            //1000+baseline ($v) is recorded in the name of the image
-            imagepng($formula->image, $dirImg . "/math_" . $v . "_" . $nameImg);
+            $v = $this->renderImage($text, $dirImg . "/math_" . $v . "_" . $nameImg);
         }
         $vAlign = $v - 1000;
 
         return '<img src="' . $this->path . "/math_" . $v . "_" . $nameImg . '" style="vertical-align:' . $vAlign . 'px;' . ' display: inline-block ;" alt="' . $text . '" title="' . $text . '"/>';
     }
 
+    /**
+     * Creates an image for the given formula at the given place
+     *
+     * @param string $text the formula
+     * @param string $file where to write the file to (full path). Use %d to have the vertical alignment included
+     * @return int the alignment + 1000
+     */
+    public function renderImage($text, $file)
+    {
+        $formula = new MathExpression($this->helper->tableExpression(trim($text)), $this->helper);
+        $formula->draw($this->size);
+
+        //1000+baseline ($v) is recorded in the name of the image
+        $v = 1000 - imagesy($formula->image) + $formula->verticalBased + 3;
+        $file = sprintf($file, $v);
+        imagepng($formula->image, $file);
+        return $v;
+    }
 
     /**
      * @param $text
