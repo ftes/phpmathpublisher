@@ -42,10 +42,13 @@ class PhpMathPublisher
 
     /**
      * Constructor
+     * @param string $path where to store images
+     * @param int $size font-size for the formula
      */
     public function __construct($path, $size = 10)
     {
         $this->helper = new Helper();
+        $this->helper->setDirImg($path);
         $this->path = $path;
         $this->size = $size;
     }
