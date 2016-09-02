@@ -94,7 +94,7 @@ class PhpMathPublisher
         $v = $this->detectImage($nameImg);
         if ($v == 0) {
             //the image doesn't exist in the cache directory. we create it.
-            $v = $this->renderImage($text, $dirImg . "/math_" . $v . "_" . $nameImg);
+            $v = $this->renderImage($text, $dirImg . "/math_%s_" . $nameImg);
         }
         $vAlign = $v - 1000;
 
@@ -105,7 +105,7 @@ class PhpMathPublisher
      * Creates an image for the given formula at the given place
      *
      * @param string $text the formula
-     * @param string $file where to write the file to (full path). Use %d to have the vertical alignment included
+     * @param string $file where to write the file to (full path). Use %s to have the vertical alignment included
      * @return int the alignment + 1000
      */
     public function renderImage($text, $file)
