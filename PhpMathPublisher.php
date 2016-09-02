@@ -42,14 +42,15 @@ class PhpMathPublisher
 
     /**
      * Constructor
-     * @param string $path where to store images
+     * @param string $imgpath where to store images
+     * @param string $webpath web path under which the sotred images are available
      * @param int $size font-size for the formula
      */
-    public function __construct($path, $size = 10)
+    public function __construct($imgpath, $webpath, $size = 10)
     {
         $this->helper = new Helper();
-        $this->helper->setDirImg($path);
-        $this->path = $path;
+        $this->helper->setDirImg($imgpath);
+        $this->path = $webpath;
         $this->size = $size;
     }
 
@@ -103,7 +104,7 @@ class PhpMathPublisher
         }
         $vAlign = $v - 1000;
 
-        return '<img src="' . $this->path . "math_" . $v . "_" . $nameImg . '" style="vertical-align:' . $vAlign . 'px;' . ' display: inline-block ;" alt="' . $text . '" title="' . $text . '"/>';
+        return '<img src="' . $this->path . "/math_" . $v . "_" . $nameImg . '" style="vertical-align:' . $vAlign . 'px;' . ' display: inline-block ;" alt="' . $text . '" title="' . $text . '"/>';
     }
 
 
