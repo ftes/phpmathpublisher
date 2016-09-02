@@ -69,7 +69,7 @@ class PhpMathPublisher
         while ($fi = readdir($handle)) {
             $info = pathinfo($fi);
             if ($fi != "." && $fi != ".." && $info["extension"] == "png" && preg_match("#^math#", $fi)) {
-                list($math, $v, $name) = explode("_", $fi);
+                list(, $v, $name) = explode("_", $fi);
                 if ($name == $n) {
                     $ret = $v;
                     break;
