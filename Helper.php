@@ -74,7 +74,7 @@ class Helper
     public function __construct()
     {
         $this->dirFonts = __DIR__ . "/fonts";
-        $this->dirImg = $_SERVER["DOCUMENT_ROOT"] . "/web/bundles/rlmain/images/formulas";
+        $this->dirImg = __DIR__ . "/images";
         $this->backR = 255;
         $this->backG = 255;
         $this->backB = 255;
