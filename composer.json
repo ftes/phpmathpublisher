@@ -1,10 +1,10 @@
 {
-	"name":         "rl/phpmathpublisher",
-	"description":  "phpMathPublisher fork. Rewrited in php5.3. Added PSR-0 support",
+	"name":         "ftes/phpmathpublisher",
+	"description":  "phpMathPublisher fork. Rewritten in php5.3. Added PSR-0 support",
 	"type":         "library",
 	"keywords":     ["phpMathPublisher", "mathematics", "math"],
 	"license":      "GPLv2",
-	"homepage":     "https://gitorious.org/rulinux-engine/phpmathpublisher",
+	"homepage":     "https://github.com/ftes/phpmathpublisher",
 	"authors":      [
 		{
 			"name":     "Pascal Brachet",
