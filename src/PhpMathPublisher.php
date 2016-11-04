@@ -11,13 +11,10 @@
  *                                                                         *
  ***************************************************************************/
 
-namespace RL\PhpMathPublisher;
-
-use RL\PhpMathPublisher\Helper;
-use RL\PhpMathPublisher\MathExpression;
+namespace ftes\PhpMathPublisher;
 
 /**
- * \RL\PhpMathPublisher\PhpMathPublisher
+ * \ftes\PhpMathPublisher\PhpMathPublisher
  *
  * @author Pascal Brachet <pbrachet@xm1math.net>
  * @author Peter Vasilevsky <tuxoiduser@gmail.com> a.k.a. Tux-oid
@@ -26,7 +23,7 @@ use RL\PhpMathPublisher\MathExpression;
 class PhpMathPublisher
 {
     /**
-     * @var \RL\PhpMathPublisher\Helper
+     * @var \ftes\PhpMathPublisher\Helper
      */
     protected $helper;
 
@@ -42,19 +39,25 @@ class PhpMathPublisher
 
     /**
      * Constructor
+     * @param string $imgpath where to store images
+     * @param string $webpath web path under which the stored images are available
+     * @param int $size font-size for the formula
      */
-    public function __construct($path, $size = 10)
+    public function __construct($imgpath, $webpath, $size = 10)
     {
         $this->helper = new Helper();
-        $this->path = $path;
+        $this->helper->setDirImg($imgpath);
+        $this->path = $webpath;
         $this->size = $size;
     }
 
     /**
-     * @param $n
+     * Check if the wanted image already exists in the cache
+     *
+     * @param string $n the base name of the image
      * @return int
      */
-    public function detectImg($n)
+    protected function detectImage($n)
     {
         /*
          Detects if the formula image already exists in the $dirImg cache directory.
@@ -66,7 +69,7 @@ class PhpMathPublisher
         while ($fi = readdir($handle)) {
             $info = pathinfo($fi);
             if ($fi != "." && $fi != ".." && $info["extension"] == "png" && preg_match("#^math#", $fi)) {
-                list($math, $v, $name) = explode("_", $fi);
+                list(, $v, $name) = explode("_", $fi);
                 if ($name == $n) {
                     $ret = $v;
                     break;
@@ -87,64 +90,76 @@ class PhpMathPublisher
 
     private function mathImageInternal($text)
     {
-        $dirImg = $this->helper->getDirImg();
         $nameImg = md5(trim($text) . $this->size) . '.png';
-        $v = $this->detectImg($nameImg);
+        $v = $this->detectImage($nameImg);
         if ($v == 0) {
             //the image doesn't exist in the cache directory. we create it.
-            $formula = $this->createFormula($text);
-            $v = 1000 - imagesy($formula->image) + $formula->verticalBased + 3;
-            //1000+baseline ($v) is recorded in the name of the image
-            ImagePNG($formula->image, $dirImg . "/math_" . $v . "_" . $nameImg);
+            $v = $this->renderImage($text, $this->getImagePath("%s", $nameImg));
         }
         
         return [$v, $nameImg];
     }
     
-    private function getImagePath($v, $nameImg)
+    private function getImagePath($v, $nameImg, $forWeb=false)
     {
-        return $this->path . "math_" . $v . "_" . $nameImg;
+		$basePath = $forWeb ? $this->path : $this->helper->getDirImg();
+        return $basePath . "math_" . $v . "_" . $nameImg;
     }
 
     /**
-     * @param $text
-     * @return string
+     * Creates the formula image (if the image is not in the cache) and returns the <img src=...></img> html code.
+     *
+     * @param string $text the formula
+     * @return string html code
      */
     public function mathImage($text)
     {
-        /*
-         Creates the formula image (if the image is not in the cache) and returns the <img src=...></img> html code.
-         */
         list($v, $nameImg) = $this->mathImageInternal($text);
         $vAlign = $v - 1000;
-        return '<img src="' . $this->getImagePath($v, $nameImg) . '" style="vertical-align:' . $vAlign . 'px;' . ' display: inline-block ;" alt="' . $text . '" title="' . $text . '"/>';
+        return '<img src="' . $this->getImagePath($v, $nameImg, true) . '" style="vertical-align:' . $vAlign . 'px;' . ' display: inline-block ;" alt="' . $text . '" title="' . $text . '"/>';
     }
 
     /**
-     * @param $text
-     * @return string
+     * Creates the formula image (if the image is not in the cache) and returns the path to the image.
+     * 
+     * @param $text the formula
+     * @return string path to the image on the file system (imgpath), not the web (webpath)
      */
     public function mathImagePath($text)
     {
-        /*
-        Creates the formula image (if the image is not in the cache) and returns the path to the image.
-        */
         list($v, $nameImg) = $this->mathImageInternal($text);
         return realpath($this->getImagePath($v, $nameImg));
     }
 
     /**
-     * @param $text
+     * Creates the formula image (if the image is not in the cache) and returns the binary PNG contents.
+     * WARNING: does not use the file caching mechanism the mather mathImage*() functions use, and thus is inefficient.
+     * 
+     * @param $text the formula
      * @return image
      */
     public function mathImageBinary($text)
     {
-        /*
-        Creates the formula image (if the image is not in the cache) and returns the binary PNG contents.
-        WARNING: does not use the file caching mechanism the mather mathImage*() functions use, and thus is inefficient.
-        */
         $formula = $this->createFormula($text);
         return $formula->image;
+    }
+
+    /**
+     * Creates an image for the given formula at the given place
+     *
+     * @param string $text the formula
+     * @param string $file where to write the file to (full path). Use %s to have the vertical alignment included
+     * @return int the alignment + 1000
+     */
+    public function renderImage($text, $file)
+    {
+        $formula = $this->createFormula($text);
+
+        //1000+baseline ($v) is recorded in the name of the image
+        $v = 1000 - imagesy($formula->image) + $formula->verticalBased + 3;
+        $file = sprintf($file, $v);
+        imagepng($formula->image, $file);
+        return $v;
     }
 
     /**
@@ -163,7 +178,7 @@ class PhpMathPublisher
         foreach ($regs as $math) {
             $t = str_replace('<m>', '', $math[0]);
             $t = str_replace('</m>', '', $t);
-            $code = $this->mathImage(trim($t), $this->size, $this->path);
+            $code = $this->mathImage(trim($t));
             $text = str_replace($math[0], $code, $text);
         }
 
@@ -171,7 +186,7 @@ class PhpMathPublisher
     }
 
     /**
-     * @param \RL\PhpMathPublisher\Helper $helper
+     * @param \ftes\PhpMathPublisher\Helper $helper
      */
     public function setHelper($helper)
     {
@@ -179,7 +194,7 @@ class PhpMathPublisher
     }
 
     /**
-     * @return \RL\PhpMathPublisher\Helper
+     * @return \ftes\PhpMathPublisher\Helper
      */
     public function getHelper()
     {

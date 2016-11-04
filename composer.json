@@ -1,27 +1,37 @@
 {
-	"name":         "ftes/phpmathpublisher",
-	"description":  "phpMathPublisher fork. Rewritten in php5.3. Added PSR-4 support",
-	"type":         "library",
-	"keywords":     ["phpMathPublisher", "mathematics", "math"],
-	"license":      "GPLv2",
-	"homepage":     "https://github.com/ftes/phpmathpublisher",
-	"authors":      [
-		{
-			"name":     "Pascal Brachet",
-			"homepage": "http://www.xm1math.net/phpmathpublisher/ "
-		},
-		{
-			"name":     "Peter Vasilevsky a.k.a. Tux-oid.",
-			"homepage": "http://rulinux.net"
-		},
-		{
-			"name":     "Fredrik Teschke",
-		}
-	],
-	"autoload":     {
-		"psr-4": { "ftes\\PhpMathPublisher\\": "" }
-	},
-	"require":{
-		"php":">=5.3.3"
-	},
+  "name":         "ftes/phpmathpublisher",
+  "description":  "phpMathPublisher fork. Rewritten in php5.3. Added PSR-4 support",
+  "type": "library",
+  "keywords": [
+    "phpMathPublisher",
+    "mathematics",
+    "math"
+  ],
+  "license": "GPLv2",
+  "homepage":     "https://github.com/ftes/phpmathpublisher",
+  "authors": [
+    {
+      "name": "Pascal Brachet",
+      "homepage": "http://www.xm1math.net/phpmathpublisher/"
+    },
+    {
+      "name": "Peter Vasilevsky a.k.a. Tux-oid.",
+      "homepage": "http://rulinux.net"
+    },
+    {
+      "name": "Andreas Gohr",
+      "homepage": "https://www.splitbrain.org"
+    }
+    {
+      "name": "Fredrik Teschke",
+    },
+  ],
+  "autoload": {
+    "psr-4": {
+      "ftes\\PhpMathPublisher\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=5.3.3"
+  }
 }

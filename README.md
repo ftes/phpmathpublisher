@@ -3,21 +3,24 @@ phpMathPublisher fork, hosted on github to allow seamless integration in compose
 Packagist package is auto-updated via [service hook](https://packagist.org/about#how-to-update-packages).
 
 ## Authors
-- **Original version:** Pascal Brachet http://www.xm1math.net/phpmathpublisher/
+- **Original version** Pascal Brachet, http://www.xm1math.net/phpmathpublisher/
 - **php5.3 rewrite** Peter Vasilevsky a.k.a. Tux-oid, http://rulinux.net
+- **psr-4 restructuring** Andreas Gohr, https://www.splitbrain.org 
 
 ## How to use
-1. Configure settings via the constructor `new PhpMathPublisher($path, $size)`
-  - where `$path` is the path where the png files should be stored
-  - and `size` is the text size to be used when generating these images
+1. Configure settings via the constructor `new PhpMathPublisher($imgpath, $webpath, $size)`, where
+  - `$imgpath` is the path where the png files should be stored,
+  - `$webpath` is the path under which the png files are accessable via the web server and
+  - `size` is the text size to be used when generating these images
 2. Call one of the interface methods on your `PhpMathPublisher` object
   - `mathImage($text)`: Creates the formula image (if the image is not in the cache) and returns the `<img src=...></img>` html code
-  - `mathImagePath($text)`: Creates the formula image (if the image is not in the cache) and returns the path to the image
+  - `mathImagePath($text)`: Creates the formula image (if the image is not in the cache) and returns the absolute path on the file system to the image
   - `mathImageBinary($text)`: Creates the formula image and returns the binary PNG contents (warning: does not use the file cache, thus inefficient)
   - `mathFilter($text)`: Replaces all `<m>` tags in `$text` with `<img>` tags by using `mathImage()`
+  - `renderImage($text, $file)`: Creates an image for the given formula at the given place
 
 ### Example
-`(new PhpMathPublisher('img/', 12))->mathFilter('A math formula : <m>f(x)=sqrt{x}</m>')` will return:
+`(new PhpMathPublisher('../dir/to/img/', 'img/', 12))->mathFilter('A math formula : <m>f(x)=sqrt{x}</m>')` will return:
 
 ```
 'A math formula : <img src=\"img/math_988.5_903b2b36fc716cfb87ff76a65911a6f0.png\" style=\"vertical-align:-11.5px; display: inline-block ;\" alt=\"f(x)=sqrt{x}\" title=\"f(x)=sqrt{x}\">'
