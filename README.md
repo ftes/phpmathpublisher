@@ -26,4 +26,4 @@ The mathfilter function will replace all the math tags (`<m>formula</m>`) in `$t
 The image corresponding to a formula is created only once. Then the image is stocked into the image directories.
 The first time that mathfilter is called, the images corresponding to the formulas are created, but the next times mathfilter will only return the html code.
 
-NOTE: if the free latex fonts furnished with this script don't work well (very tiny formulas - that's could happened with some GD configurations), you should try to use the bakoma versions of these fonts ([downloadable here])http://www.ctan.org/tex-archive/fonts/cm/ps-type1/bakoma/ttf/))
+NOTE: if the free latex fonts furnished with this script don't work well (very tiny formulas - that's could happened with some GD configurations), you should try to use the bakoma versions of these fonts ([downloadable here](http://www.ctan.org/tex-archive/fonts/cm/ps-type1/bakoma/ttf/))
