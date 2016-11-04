@@ -11,10 +11,10 @@
  *                                                                         *
  ***************************************************************************/
 
-namespace RL\PhpMathPublisher;
+namespace ftes\PhpMathPublisher;
 
 /**
- * \RL\PhpMathPublisher\Expression
+ * \ftes\PhpMathPublisher\Expression
  *
  * @author Pascal Brachet <pbrachet@xm1math.net>
  * @author Peter Vasilevsky <tuxoiduser@gmail.com> a.k.a. Tux-oid
@@ -29,7 +29,7 @@ class Expression
     public $image;
     public $verticalBased;
     /**
-     * @var \RL\PhpMathPublisher\Helper
+     * @var \ftes\PhpMathPublisher\Helper
      */
     public $helper;
 }

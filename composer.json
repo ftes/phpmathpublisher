@@ -21,10 +21,10 @@
     {
       "name": "Andreas Gohr",
       "homepage": "https://www.splitbrain.org"
-    }
-    {
-      "name": "Fredrik Teschke",
     },
+    {
+      "name": "Fredrik Teschke"
+    }
   ],
   "autoload": {
     "psr-4": {

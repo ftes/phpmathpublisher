@@ -1,5 +1,5 @@
 <?php
-use RL\PhpMathPublisher\PhpMathPublisher;
+use ftes\PhpMathPublisher\PhpMathPublisher;
 
 require_once 'vendor/autoload.php';
 
@@ -7,7 +7,7 @@ require_once 'vendor/autoload.php';
 $html = file_get_contents(__FILE__);
 $html = substr($html, __COMPILER_HALT_OFFSET__);
 if(!is_dir(__DIR__ . '/images')) mkdir(__DIR__ . '/images');
-$pmp = new PhpMathPublisher(__DIR__ . '/images', 'images', 16);
+$pmp = new PhpMathPublisher(__DIR__ . '/images/', 'images/', 16);
 echo $pmp->mathFilter($html);
 __halt_compiler();
 

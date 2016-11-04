@@ -11,10 +11,10 @@
  *                                                                         *
  ***************************************************************************/
 
-namespace RL\PhpMathPublisher;
+namespace ftes\PhpMathPublisher;
 
 /**
- * \RL\PhpMathPublisher\MathExpression
+ * \ftes\PhpMathPublisher\MathExpression
  *
  * @author Pascal Brachet <pbrachet@xm1math.net>
  * @author Peter Vasilevsky <tuxoiduser@gmail.com> a.k.a. Tux-oid
