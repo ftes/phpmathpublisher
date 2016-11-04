@@ -1,6 +1,6 @@
 {
 	"name":         "ftes/phpmathpublisher",
-	"description":  "phpMathPublisher fork. Rewritten in php5.3. Added PSR-0 support",
+	"description":  "phpMathPublisher fork. Rewritten in php5.3. Added PSR-4 support",
 	"type":         "library",
 	"keywords":     ["phpMathPublisher", "mathematics", "math"],
 	"license":      "GPLv2",
@@ -13,13 +13,15 @@
 		{
 			"name":     "Peter Vasilevsky a.k.a. Tux-oid.",
 			"homepage": "http://rulinux.net"
+		},
+		{
+			"name":     "Fredrik Teschke",
 		}
 	],
 	"autoload":     {
-		"psr-0": { "RL\\PhpMathPublisher\\": "" }
+		"psr-4": { "ftes\\PhpMathPublisher\\": "" }
 	},
 	"require":{
 		"php":">=5.3.3"
 	},
-	"target-dir":"RL/PhpMathPublisher"
 }
