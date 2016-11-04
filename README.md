@@ -1,6 +1,7 @@
 # phpMathPublisher
 
 phpMathPublisher fork, hosted on github to allow seamless integration in composer-based php apps.
+Packagist package is auto-updated via [service hook](https://packagist.org/about#how-to-update-packages).
 
 ## Authors
 
