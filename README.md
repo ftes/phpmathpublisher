@@ -7,20 +7,20 @@ Packagist package is auto-updated via [service hook](https://packagist.org/about
 - **php5.3 rewrite** Peter Vasilevsky a.k.a. Tux-oid, http://rulinux.net
 
 ## How to use
-Call the `mathfilter($text,$size,$pathtoimg)` function in your php page.
-
-- `$text` is the text with standard html tags and mathematical expressions (defined by the `<m>...</m>` tag).
-- `$size` is the size of the police used for the formulas.
-- `$pathtoimg` is the relative path between the html pages and the images directory.
-
-With a simple `echo mathfilter($text,$size,$pathtoimg);`, you can display text with mathematical formulas.
-The mathfilter function will replace all the math tags (`<m>formula</m>`) in `$text` by `<img src=the formula image >`.
+1. Configure settings via the constructor `new PhpMathPublisher($path, $size)`
+  - where `$path` is the path where the png files should be stored
+  - and `size` is the text size to be used when generating these images
+2. Call one of the interface methods on your `PhpMathPublisher` object
+  - `mathImage($text)`: Creates the formula image (if the image is not in the cache) and returns the `<img src=...></img>` html code
+  - `mathImagePath($text)`: Creates the formula image (if the image is not in the cache) and returns the path to the image
+  - `mathImageBinary($text)`: Creates the formula image and returns the binary PNG contents (warning: does not use the file cache, thus inefficient)
+  - `mathFilter($text)`: Replaces all `<m>` tags in `$text` with `<img>` tags by using `mathImage()`
 
 ### Example
-`mathfilter("A math formula : <m>f(x)=sqrt{x}</m>,12,"img/")` will return:
+`(new PhpMathPublisher('img/', 12))->mathFilter('A math formula : <m>f(x)=sqrt{x}</m>')` will return:
 
 ```
-"A math formula : <img src=\"img/math_988.5_903b2b36fc716cfb87ff76a65911a6f0.png\" style=\"vertical-align:-11.5px; display: inline-block ;\" alt=\"f(x)=sqrt{x}\" title=\"f(x)=sqrt{x}\">"
+'A math formula : <img src=\"img/math_988.5_903b2b36fc716cfb87ff76a65911a6f0.png\" style=\"vertical-align:-11.5px; display: inline-block ;\" alt=\"f(x)=sqrt{x}\" title=\"f(x)=sqrt{x}\">'
 ```
 
 The image corresponding to a formula is created only once. Then the image is stocked into the image directories.
