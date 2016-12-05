@@ -159,6 +159,7 @@ class Helper
             'notsubset' => '&#8836;',
             'circ' => '&#8728;',
             'varnothing' => '&#248;',
+            'cdot' => '&#8901;',
             'cdots' => '&#8943;',
             'vdots' => '&#8942;',
             'ddots' => '&#8945;', //operateurs
@@ -289,6 +290,7 @@ class Helper
             'notsubset' => 'FreeSerif',
             'circ' => 'FreeSerif',
             'varnothing' => 'FreeSerif',
+            'cdot' => 'FreeSerif',
             'cdots' => 'FreeSerif',
             'vdots' => 'FreeSerif',
             'ddots' => 'FreeSerif', //operateurs
@@ -300,6 +302,7 @@ class Helper
             ')' => 'cmex10',
             '[' => 'cmex10',
             ']' => 'cmex10',
+            '|' => 'FreeSerif',
             'lbrace' => 'cmex10',
             'rbrace' => 'cmex10', //autres
             '_hat' => 'cmex10',
