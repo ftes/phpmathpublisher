@@ -7,7 +7,7 @@
     "mathematics",
     "math"
   ],
-  "license": "GPLv2",
+  "license": "GPL-3.0-or-later",
   "homepage":     "https://github.com/ftes/phpmathpublisher",
   "authors": [
     {
